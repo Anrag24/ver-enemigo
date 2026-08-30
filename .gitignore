@@ -1,0 +1,17 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Godot 3/import cache
+.import/
+
+# Local/export artifacts
+export.cfg
+export_presets.cfg
+*.tmp
+*.bak
+*.exe
+*.pck
+*.zip
+*.7z
+*.rar

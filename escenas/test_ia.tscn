@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bvndcjay8jkfb"]
+
+[ext_resource type="PackedScene" uid="uid://c5n5vqgstp2xi" path="res://escenas/enemigo2.tscn" id="1_enemy"]
+
+[sub_resource type="Environment" id="Environment_test"]
+background_mode = 1
+background_color = Color(0.5, 0.62, 0.72, 1)
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.6
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_test"]
+vertices = PackedVector3Array(-12, 0, -12, 12, 0, -12, 12, 0, 12, -12, 0, 12)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+agent_height = 1.8
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(24, 0.4, 24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.28, 0.34, 0.28, 1)
+roughness = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_ground")
+size = Vector3(24, 0.4, 24)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.45
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_player"]
+albedo_color = Color(0.1, 0.38, 0.95, 1)
+roughness = 0.45
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
+material = SubResource("StandardMaterial3D_player")
+radius = 0.45
+height = 1.8
+
+[node name="test_ia" type="Node3D" unique_id=847923854]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1885569155]
+environment = SubResource("Environment_test")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1012603685]
+transform = Transform3D(0.707107, -0.353553, 0.612372, 0, 0.866025, 0.5, -0.707107, -0.353553, 0.612372, 0, 7, 0)
+light_energy = 1.8
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1497310360]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 7, 10)
+current = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1041855557]
+navigation_mesh = SubResource("NavigationMesh_test")
+
+[node name="Suelo" type="StaticBody3D" parent="NavigationRegion3D" unique_id=472083868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Suelo" unique_id=1137188149]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Suelo" unique_id=1563919897]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="Enemigo2" parent="." unique_id=478679451 instance=ExtResource("1_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="PlayerTest" type="CharacterBody3D" parent="." unique_id=1463372175 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.9, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerTest" unique_id=891367469]
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerTest" unique_id=1182166408]
+mesh = SubResource("CapsuleMesh_player")
